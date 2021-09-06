@@ -1,0 +1,23 @@
+module LocalStreamClient.main {
+    requires javafx.fxml;
+    requires javafx.controls;
+    requires org.apache.logging.log4j;
+    requires org.apache.commons.lang3;
+    requires java.desktop;
+    requires LocalStream.main;
+    requires io.netty.all;
+    requires java.logging;
+    requires com.google.common;
+    requires org.apache.commons.io;
+    requires kotlin.stdlib;
+
+    opens de.jvstvshd.localstream.client to javafx.fxml;
+    exports de.jvstvshd.localstream.client.media;
+    exports de.jvstvshd.localstream.client;
+    exports de.jvstvshd.localstream.client.gui;
+    exports de.jvstvshd.localstream.client.network;
+    exports de.jvstvshd.localstream.client.util;
+    opens de.jvstvshd.localstream.client.gui to javafx.fxml;
+    exports de.jvstvshd.localstream.client.util.requests;
+    exports de.jvstvshd.localstream.client.util.activity;
+}

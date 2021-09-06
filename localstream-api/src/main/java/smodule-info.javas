@@ -1,0 +1,20 @@
+module LocalStream.main {
+    requires com.google.common;
+    requires io.netty.all;
+    requires org.apache.logging.log4j;
+    requires org.apache.commons.lang3;
+    requires net.kyori.event;
+    requires net.bytebuddy;
+    requires java.desktop;
+    requires java.logging;
+    requires java.sql;
+
+    exports de.jvstvshd.localstream.scheduling;
+    exports de.jvstvshd.localstream.network.handling;
+    exports de.jvstvshd.localstream.network.packets;
+    exports de.jvstvshd.localstream.network.serializing;
+    exports de.jvstvshd.localstream.network.util;
+    exports de.jvstvshd.localstream.title;
+    exports de.jvstvshd.localstream.network;
+    exports de.jvstvshd.localstream.event;
+}

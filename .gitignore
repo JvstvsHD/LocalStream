@@ -1,0 +1,15 @@
+/localstream-client-mobile
+/localstream-api/.gradle
+/localstream-api/.idea
+/localstream-api/build
+/localstream-api/gradle
+/localstream-client-desktop/.gradle
+/localstream-client-desktop/.idea
+/localstream-client-desktop/build
+/localstream-client-desktop/gradle
+/localstream-client-desktop/logs
+/localstream-server/.gradle
+/localstream-server/.idea
+/localstream-server/build
+/localstream-server/gradle
+/localstream-server/logs
