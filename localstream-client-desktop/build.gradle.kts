@@ -66,7 +66,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk16:1.5.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.30")
 }
 
 java {

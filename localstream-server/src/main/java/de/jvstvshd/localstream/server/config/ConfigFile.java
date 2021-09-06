@@ -9,6 +9,7 @@ public class ConfigFile {
     private DatabaseCredentials databaseCredentials = new DatabaseCredentials();
 
     public DatabaseCredentials getDatabaseCredentials() {
+        System.out.println("databaseCredentials = " + databaseCredentials);
         return databaseCredentials;
     }
 }

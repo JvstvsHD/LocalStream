@@ -141,7 +141,8 @@ public class MediaUpload implements Comparable<MediaUpload> {
                 //System.out.println("i = " + i);
 
                 manager.sendPacket(new TitleDataUploadPacket(priority, currentData, metadata.getUuid()));
-                TimeUnit.NANOSECONDS.sleep(Math.round(timePerPacket * 1000 * 1000 * 10));
+                //TimeUnit.NANOSECONDS.sleep(Math.round(timePerPacket * 1000 * 1000 * 10));
+                TimeUnit.NANOSECONDS.sleep(1);
                 //line.write(b, 0, i);;
                 //TimeUnit.NANOSECONDS.sleep(Math.round(timePerPacket * 1000 * 1000 * 10));
                 //System.out.println("packetsSent = " + packetsSent);
