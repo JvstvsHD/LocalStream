@@ -5,3 +5,4 @@ You need to set up a server yourself (or use a server of another person). Curren
 ## Important notes
 - **This project is still in development and there are no releases yet. However, you can compile the client yourself.**
 - The GUI is only available in **German**. There will be support for other languages (at least English).
+- Current existing Java code will be replaced with Kotlin.
