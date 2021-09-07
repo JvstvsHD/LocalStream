@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="de.jvstvshd.localstream.client.desktop.gui.PlayerGuiController"
+          prefHeight="400.0" prefWidth="600.0" alignment="TOP_CENTER" style="-fx-background-color: white;">
+
+    <Label fx:id="text" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <ProgressBar progress="0" fx:id="progressBar" GridPane.columnIndex="0" GridPane.rowIndex="1" minWidth="400"/>
+    <Label fx:id="time"/>
+    <Button text="&#x23ef;" onAction="#changePlayState" GridPane.columnIndex="0" GridPane.rowIndex="2" style="color: green;"/>
+    <Button text="&#x23f9;" onAction="#stopPlaying" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+</GridPane>

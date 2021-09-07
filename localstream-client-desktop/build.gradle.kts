@@ -5,6 +5,7 @@ plugins {
     application
     id("org.openjfx.javafxplugin") version "0.0.10"
     kotlin("jvm") version "1.5.30"
+    id ("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
 group = "de.jvstvshd.localstream"
@@ -76,6 +77,10 @@ java {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+}
+
+application {
+    mainClass.set("de.jvstvshd.localstream.client.desktop.LocalStreamClient")
 }
 
 tasks.withType<JavaCompile>().configureEach {
