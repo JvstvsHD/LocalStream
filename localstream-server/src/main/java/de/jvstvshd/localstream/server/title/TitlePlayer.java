@@ -92,11 +92,14 @@ public class TitlePlayer implements NetworkTask {
                 break;
             //System.out.println("i = " + i);
             byteCount += i;
+            System.out.println("byteCount = " + byteCount);
             manager.sendPacket(new TitleDataPacket(PacketPriority.HIGH, b, number++));
             //line.write(b, 0, i);;
             TimeUnit.NANOSECONDS.sleep(Math.round(timePerPacket * 1000 * 1000 * 10));
             //System.out.println("packetsSent = " + packetsSent);
         }
+        System.out.println("byteCount at stop = " + byteCount);
+        shouldPause = false;
         if (stop) {
             manager.sendPacket(new TitleDataPacket(PacketPriority.NORMAL, new byte[0], -1));
             titleManager.unregisterPlayer(metadata.getUuid());
@@ -106,7 +109,6 @@ public class TitlePlayer implements NetworkTask {
         line.close();
         currentDecoded.close();
         encoded.close();
-
     }
 
     private AudioFormat decodeFormat(AudioFormat format, String extension) throws UnsupportedAudioFileException {
@@ -135,6 +137,7 @@ public class TitlePlayer implements NetworkTask {
     public void resume() {
         try {
             this.shouldPause = false;
+            System.out.println("byteCount = " + byteCount);
             play(byteCount, false);
         } catch (Exception e) {
             throw new RuntimeException(e);

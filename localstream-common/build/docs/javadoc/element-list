@@ -1,0 +1,9 @@
+de.jvstvshd.localstream.event
+de.jvstvshd.localstream.network
+de.jvstvshd.localstream.network.handling
+de.jvstvshd.localstream.network.packets
+de.jvstvshd.localstream.network.serializing
+de.jvstvshd.localstream.network.util
+de.jvstvshd.localstream.scheduling
+de.jvstvshd.localstream.title
+de.jvstvshd.localstream.utils

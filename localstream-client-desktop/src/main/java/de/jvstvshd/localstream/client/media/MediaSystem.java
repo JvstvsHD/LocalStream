@@ -136,6 +136,7 @@ public class MediaSystem {
     }
 
     public void pausePlayer(AudioPlayer player) {
+        System.out.println("pause");
         manager.sendPacket(new TitlePlayPacket(PacketPriority.HIGH, player.getMetadata(), TitlePlayPacket.TitlePlayAction.PAUSE));
     }
 
