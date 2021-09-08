@@ -3,9 +3,9 @@ package de.jvstvshd.localstream.client.desktop.media;
 import de.jvstvshd.localstream.client.desktop.util.requests.Request;
 import de.jvstvshd.localstream.client.desktop.util.requests.RequestException;
 import de.jvstvshd.localstream.client.desktop.util.requests.RequestSystem;
-import de.jvstvshd.localstream.network.NetworkManager;
-import de.jvstvshd.localstream.network.packets.PacketPriority;
-import de.jvstvshd.localstream.network.packets.TitlePacket;
+import de.jvstvshd.localstream.common.network.NetworkManager;
+import de.jvstvshd.localstream.common.network.packets.PacketPriority;
+import de.jvstvshd.localstream.common.network.packets.TitlePacket;
 
 import java.util.UUID;
 

@@ -3,11 +3,11 @@ package de.jvstvshd.localstream.client.desktop.network;
 import de.jvstvshd.localstream.client.desktop.gui.SearchDialogController;
 import de.jvstvshd.localstream.client.desktop.media.AudioPlayer;
 import de.jvstvshd.localstream.client.desktop.media.MediaSystem;
-import de.jvstvshd.localstream.network.handling.PacketClientHandler;
-import de.jvstvshd.localstream.network.packets.SearchSuggestionPacket;
-import de.jvstvshd.localstream.network.packets.ServerResponsePacket;
-import de.jvstvshd.localstream.network.packets.StartPlayPacket;
-import de.jvstvshd.localstream.network.packets.TitleDataPacket;
+import de.jvstvshd.localstream.common.network.handling.PacketClientHandler;
+import de.jvstvshd.localstream.common.network.packets.SearchSuggestionPacket;
+import de.jvstvshd.localstream.common.network.packets.ServerResponsePacket;
+import de.jvstvshd.localstream.common.network.packets.StartPlayPacket;
+import de.jvstvshd.localstream.common.network.packets.TitleDataPacket;
 import org.apache.logging.log4j.Logger;
 
 import javax.sound.sampled.AudioSystem;

@@ -1,17 +1,17 @@
 package de.jvstvshd.localstream.client.desktop;
 
 import de.jvstvshd.localstream.client.desktop.gui.GuiController;
-import de.jvstvshd.localstream.client.desktop.util.Logging;
-import de.jvstvshd.localstream.client.desktop.util.requests.RequestSystem;
 import de.jvstvshd.localstream.client.desktop.media.MediaSystem;
 import de.jvstvshd.localstream.client.desktop.network.NettyClient;
+import de.jvstvshd.localstream.client.desktop.util.Logging;
 import de.jvstvshd.localstream.client.desktop.util.activity.NetworkActivities;
-import de.jvstvshd.localstream.event.EventBusImpl;
-import de.jvstvshd.localstream.event.EventDispatcher;
-import de.jvstvshd.localstream.network.NetworkManager;
-import de.jvstvshd.localstream.network.NetworkManagerImpl;
-import de.jvstvshd.localstream.scheduling.LsScheduler;
-import de.jvstvshd.localstream.scheduling.Scheduler;
+import de.jvstvshd.localstream.client.desktop.util.requests.RequestSystem;
+import de.jvstvshd.localstream.common.event.EventBusImpl;
+import de.jvstvshd.localstream.common.event.EventDispatcher;
+import de.jvstvshd.localstream.common.network.NetworkManager;
+import de.jvstvshd.localstream.common.network.NetworkManagerImpl;
+import de.jvstvshd.localstream.common.scheduling.LsScheduler;
+import de.jvstvshd.localstream.common.scheduling.Scheduler;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import javafx.application.Application;
@@ -76,7 +76,11 @@ public class LocalStreamClient extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        System.out.println("d");
+        //--module-path C:\IntelliJ\Projects\LocalStream\localstream-client-desktop\libs\javafx-sdk-zip\javafx-sdk-17\lib --add-modules=javafx.controls,javafx.fxml
+        /*JavaFXInstaller installer = new JavaFXInstaller();
+        installer.installJavaFX();*/
+        launch(args);
     }
 
     public MediaSystem getMediaSystem() {

@@ -1,12 +1,12 @@
 package de.jvstvshd.localstream.client.desktop.gui;
 
 import de.jvstvshd.localstream.client.desktop.network.ClientPacketHandler;
-import de.jvstvshd.localstream.network.NetworkManager;
-import de.jvstvshd.localstream.network.packets.Packet;
-import de.jvstvshd.localstream.network.packets.PacketPriority;
-import de.jvstvshd.localstream.network.packets.SearchRequestPacket;
-import de.jvstvshd.localstream.network.packets.TitlePacket;
-import de.jvstvshd.localstream.title.TitleMetadata;
+import de.jvstvshd.localstream.common.network.NetworkManager;
+import de.jvstvshd.localstream.common.network.packets.Packet;
+import de.jvstvshd.localstream.common.network.packets.PacketPriority;
+import de.jvstvshd.localstream.common.network.packets.SearchRequestPacket;
+import de.jvstvshd.localstream.common.network.packets.TitlePacket;
+import de.jvstvshd.localstream.common.title.TitleMetadata;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;

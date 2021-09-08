@@ -1,6 +1,5 @@
 package de.jvstvshd.localstream.common.network.packets;
 
-import de.jvstvshd.localstream.common.network.handling.PacketClientHandler;
 import de.jvstvshd.localstream.common.network.handling.PacketHandler;
 import de.jvstvshd.localstream.common.network.handling.PacketServerHandler;
 
@@ -64,9 +63,9 @@ public abstract class Packet<Handler extends PacketHandler> implements PacketCom
 
     /**
      * Processes the packet with the <code>handler</code>.
-     * @param handler Handler - often a implementation of {@link PacketClientHandler} or {@link PacketServerHandler}.
+     * @param handler Handler - often a implementation of {@link de.jvstvshd.localstream.common.network.handling.PacketClientHandler} or {@link PacketServerHandler}.
      * @see PacketHandler
-     * @see PacketClientHandler
+     * @see de.jvstvshd.localstream.common.network.handling.PacketClientHandler
      * @see PacketServerHandler
      */
     public abstract void process(Handler handler);

@@ -1,8 +1,8 @@
 package de.jvstvshd.localstream.common.network.packets;
 
 import com.google.common.base.Charsets;
-import de.jvstvshd.localstream.common.utils.AudioUtils;
 import de.jvstvshd.localstream.common.title.TitleMetadata;
+import de.jvstvshd.localstream.common.utils.AudioUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.handler.codec.DecoderException;
@@ -1178,7 +1178,7 @@ public class PacketBuffer extends ByteBuf {
     }
 
     /**
-     * Writes an {@link javax.sound.sampled.AudioFormat.Encoding} to the underlying {@link ByteBuf} via the name it contains.
+     * Writes an {@link AudioFormat.Encoding} to the underlying {@link ByteBuf} via the name it contains.
      *
      * @param encoding value
      * @return this
@@ -1188,7 +1188,7 @@ public class PacketBuffer extends ByteBuf {
     }
 
     /**
-     * Reads an {@link javax.sound.sampled.AudioFormat.Encoding} from the underlying {@link ByteBuf}.
+     * Reads an {@link AudioFormat.Encoding} from the underlying {@link ByteBuf}.
      *
      * @return the read ByteBuf
      * @throws IllegalStateException if the read string matches no encoding.
@@ -1199,14 +1199,5 @@ public class PacketBuffer extends ByteBuf {
         if (encoding.isEmpty())
             throw new IllegalStateException("Unexpected value: " + s);
         return encoding.get();
-        /*return switch (s = readString()) {
-            case "PCM_SIGNED" -> AudioFormat.Encoding.PCM_SIGNED;
-            case "PCM_UNSIGNED" -> AudioFormat.Encoding.PCM_UNSIGNED;
-            case "PCM_FLOAT" -> AudioFormat.Encoding.PCM_FLOAT;
-            case "ULAW" -> AudioFormat.Encoding.ULAW;
-            case "ALAW" -> AudioFormat.Encoding.ALAW;
-            case "MPEG1L3" -> MpegEncoding.MPEG1L3;
-            default -> throw new IllegalStateException("Unexpected value: " + s);
-        };*/
     }
 }

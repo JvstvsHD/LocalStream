@@ -105,9 +105,9 @@ public class TitleMetadata implements Cloneable {
     }
 
     /**
-     * @param name   Name of the de.jvstvshd.localstream.scheduling.title.
-     * @param length Length in seconds.
-     * @param size   Size in bytes.
+     * @param name      Name of the de.jvstvshd.localstream.scheduling.title.
+     * @param length    Length in seconds.
+     * @param size      Size in bytes.
      * @param interpret Interpret of the title.
      * @param titleName The name of this title without any file extension or interpret.
      * @return The created de.jvstvshd.localstream.scheduling.title metadata.
@@ -124,10 +124,10 @@ public class TitleMetadata implements Cloneable {
     }
 
     /**
-     * @param name   Name of the de.jvstvshd.localstream.scheduling.title.
-     * @param length Length in seconds.
-     * @param size   Size in bytes.
-     * @param uuid   title id
+     * @param name      Name of the de.jvstvshd.localstream.scheduling.title.
+     * @param length    Length in seconds.
+     * @param size      Size in bytes.
+     * @param uuid      title id
      * @param interpret Interpret of the title.
      * @param titleName The name of this title without any file extension or interpret.
      * @return The created de.jvstvshd.localstream.scheduling.title metadata.
@@ -191,6 +191,7 @@ public class TitleMetadata implements Cloneable {
         private String titleName;
 
         private Builder() {
+
         }
 
         public Builder setName(String name) {

@@ -1,7 +1,7 @@
 package de.jvstvshd.localstream.client.desktop.gui;
 
-import de.jvstvshd.localstream.network.NetworkManagerImpl;
-import de.jvstvshd.localstream.scheduling.ScheduleTask;
+import de.jvstvshd.localstream.common.network.NetworkManagerImpl;
+import de.jvstvshd.localstream.common.scheduling.ScheduleTask;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

@@ -158,7 +158,7 @@ public class LsScheduler implements Scheduler {
                 try {
                     this.task.run();
                 } catch (Throwable e) {
-                    LogManager.getLogger().error("Exception in task {}", this.task, e);
+                    LogManager.getLogger(LsScheduler.class).error("Exception in task {}", this.task, e);
                 } finally {
                     if (this.period == 0L) {
                         onFinish();

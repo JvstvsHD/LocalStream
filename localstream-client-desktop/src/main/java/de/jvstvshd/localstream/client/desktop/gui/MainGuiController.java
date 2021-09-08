@@ -2,7 +2,7 @@ package de.jvstvshd.localstream.client.desktop.gui;
 
 import de.jvstvshd.localstream.client.desktop.LocalStreamClient;
 import de.jvstvshd.localstream.client.desktop.network.ClientPacketHandler;
-import de.jvstvshd.localstream.network.packets.Packet;
+import de.jvstvshd.localstream.common.network.packets.Packet;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

@@ -1,12 +1,12 @@
 package de.jvstvshd.localstream.client.desktop.media;
 
-import de.jvstvshd.localstream.client.desktop.util.activity.NetworkActivity;
 import de.jvstvshd.localstream.client.desktop.util.activity.NetworkActivities;
-import de.jvstvshd.localstream.network.NetworkManager;
-import de.jvstvshd.localstream.network.packets.PacketPriority;
-import de.jvstvshd.localstream.network.packets.TitleDataUploadPacket;
-import de.jvstvshd.localstream.network.packets.TitlePacket;
-import de.jvstvshd.localstream.title.TitleMetadata;
+import de.jvstvshd.localstream.client.desktop.util.activity.NetworkActivity;
+import de.jvstvshd.localstream.common.network.NetworkManager;
+import de.jvstvshd.localstream.common.network.packets.PacketPriority;
+import de.jvstvshd.localstream.common.network.packets.TitleDataUploadPacket;
+import de.jvstvshd.localstream.common.network.packets.TitlePacket;
+import de.jvstvshd.localstream.common.title.TitleMetadata;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jaudiotagger.audio.AudioFileIO;

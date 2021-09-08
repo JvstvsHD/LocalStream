@@ -1,2 +1,2 @@
-rootProject.name = "LocalStream"
+rootProject.name = "localstream-common"
 

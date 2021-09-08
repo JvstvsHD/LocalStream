@@ -2,7 +2,6 @@ package de.jvstvshd.localstream.common.network.handling;
 
 
 import de.jvstvshd.localstream.common.network.packets.*;
-import de.jvstvshd.localstream.network.packets.*;
 
 /**
  * Packet handler whose implementations are found in the client.

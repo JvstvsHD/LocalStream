@@ -2,7 +2,7 @@ package de.jvstvshd.localstream.client.desktop.media;
 
 import de.jvstvshd.localstream.client.desktop.LocalStreamClient;
 import de.jvstvshd.localstream.client.desktop.gui.PlayerGuiController;
-import de.jvstvshd.localstream.title.TitleMetadata;
+import de.jvstvshd.localstream.common.title.TitleMetadata;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
