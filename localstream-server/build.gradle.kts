@@ -19,13 +19,13 @@ dependencies {
     implementation("org.apache.logging.log4j", "log4j-slf4j-impl", log4jVersion)
 
     //config
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.12.3")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.12.5")
 
     //network & database
     implementation("io.netty", "netty-all", nettyVersion)
     implementation("com.zaxxer:HikariCP:5.0.0")
-    implementation("de.jvstvshd.localstream:api:1.0.0-alpha");
-    implementation("org.mariadb.jdbc:mariadb-java-client:2.7.2")
+    implementation("de.jvstvshd.localstream:common:1.0.0-alpha");
+    implementation("org.mariadb.jdbc:mariadb-java-client:2.7.3")
 
     implementation("com.google.guava", "guava", "30.1.1-jre")
     implementation("org.apache.commons:commons-lang3:3.12.0")
@@ -37,8 +37,8 @@ dependencies {
     implementation("com.googlecode.soundlibs", "tritonus-share", "0.3.7.4")
 
     //test
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
 
 
 }

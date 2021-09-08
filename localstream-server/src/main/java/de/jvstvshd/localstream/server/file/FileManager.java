@@ -1,7 +1,7 @@
 package de.jvstvshd.localstream.server.file;
 
+import de.jvstvshd.localstream.common.title.TitleMetadata;
 import de.jvstvshd.localstream.server.LocalStreamServer;
-import de.jvstvshd.localstream.title.TitleMetadata;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

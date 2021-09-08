@@ -1,16 +1,14 @@
 package de.jvstvshd.localstream.server.network;
 
 import com.google.common.collect.Lists;
-import de.jvstvshd.localstream.event.EventBusImpl;
-import de.jvstvshd.localstream.event.EventDispatcher;
-import de.jvstvshd.localstream.network.NetworkManager;
-import de.jvstvshd.localstream.network.NetworkManagerImpl;
-import de.jvstvshd.localstream.network.packets.PacketManager;
-import de.jvstvshd.localstream.network.serializing.PacketDeserializer;
-import de.jvstvshd.localstream.network.serializing.PacketPrepender;
-import de.jvstvshd.localstream.network.serializing.PacketSerializer;
-import de.jvstvshd.localstream.network.serializing.PacketSplitter;
-import de.jvstvshd.localstream.network.util.NettyUtils;
+import de.jvstvshd.localstream.common.network.NetworkManager;
+import de.jvstvshd.localstream.common.network.NetworkManagerImpl;
+import de.jvstvshd.localstream.common.network.packets.PacketManager;
+import de.jvstvshd.localstream.common.network.serializing.PacketDeserializer;
+import de.jvstvshd.localstream.common.network.serializing.PacketPrepender;
+import de.jvstvshd.localstream.common.network.serializing.PacketSerializer;
+import de.jvstvshd.localstream.common.network.serializing.PacketSplitter;
+import de.jvstvshd.localstream.common.network.util.NettyUtils;
 import de.jvstvshd.localstream.server.LocalStreamServer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

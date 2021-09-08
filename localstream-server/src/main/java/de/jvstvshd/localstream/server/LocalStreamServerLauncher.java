@@ -1,7 +1,7 @@
 package de.jvstvshd.localstream.server;
 
-import de.jvstvshd.localstream.server.util.Logging;
-import de.jvstvshd.localstream.server.util.ServerStartException;
+import de.jvstvshd.localstream.server.utils.Logging;
+import de.jvstvshd.localstream.server.utils.ServerStartException;
 import org.apache.logging.log4j.Logger;
 
 import java.text.DecimalFormat;

@@ -1,16 +1,16 @@
 package de.jvstvshd.localstream.server;
 
-import de.jvstvshd.localstream.event.EventBusImpl;
-import de.jvstvshd.localstream.event.EventDispatcher;
-import de.jvstvshd.localstream.network.packets.PacketManager;
-import de.jvstvshd.localstream.scheduling.LsScheduler;
-import de.jvstvshd.localstream.scheduling.Scheduler;
+import de.jvstvshd.localstream.common.event.EventBusImpl;
+import de.jvstvshd.localstream.common.event.EventDispatcher;
+import de.jvstvshd.localstream.common.network.packets.PacketManager;
+import de.jvstvshd.localstream.common.scheduling.LsScheduler;
+import de.jvstvshd.localstream.common.scheduling.Scheduler;
 import de.jvstvshd.localstream.server.config.ConfigFile;
-import de.jvstvshd.localstream.server.config.Configuration;
 import de.jvstvshd.localstream.server.database.DataSourceManager;
 import de.jvstvshd.localstream.server.network.NettyServer;
 import de.jvstvshd.localstream.server.title.TitleManager;
-import de.jvstvshd.localstream.server.util.ServerStartException;
+import de.jvstvshd.localstream.server.config.Configuration;
+import de.jvstvshd.localstream.server.utils.ServerStartException;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;

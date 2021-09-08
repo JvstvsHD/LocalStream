@@ -1,4 +1,4 @@
-package de.jvstvshd.localstream.server.util;
+package de.jvstvshd.localstream.server.utils;
 
 import java.io.IOException;
 

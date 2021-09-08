@@ -1,12 +1,12 @@
 package de.jvstvshd.localstream.server.title;
 
-import de.jvstvshd.localstream.network.NetworkManager;
-import de.jvstvshd.localstream.network.packets.PacketPriority;
-import de.jvstvshd.localstream.network.packets.StartPlayPacket;
-import de.jvstvshd.localstream.network.packets.TitleDataPacket;
-import de.jvstvshd.localstream.network.util.NetworkTask;
-import de.jvstvshd.localstream.scheduling.Scheduler;
-import de.jvstvshd.localstream.title.TitleMetadata;
+import de.jvstvshd.localstream.common.network.NetworkManager;
+import de.jvstvshd.localstream.common.network.packets.PacketPriority;
+import de.jvstvshd.localstream.common.network.packets.StartPlayPacket;
+import de.jvstvshd.localstream.common.network.packets.TitleDataPacket;
+import de.jvstvshd.localstream.common.network.util.NetworkTask;
+import de.jvstvshd.localstream.common.scheduling.Scheduler;
+import de.jvstvshd.localstream.common.title.TitleMetadata;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

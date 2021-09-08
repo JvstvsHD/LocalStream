@@ -2,10 +2,6 @@ package de.jvstvshd.localstream.server.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import de.jvstvshd.localstream.scheduling.Concurrency;
-import io.netty.util.concurrent.GlobalEventExecutor;
-import org.mariadb.jdbc.MariaDbDataSource;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

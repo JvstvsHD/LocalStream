@@ -1,12 +1,13 @@
 package de.jvstvshd.localstream.server.title;
 
-import de.jvstvshd.localstream.network.NetworkManager;
-import de.jvstvshd.localstream.scheduling.Concurrency;
-import de.jvstvshd.localstream.scheduling.Scheduler;
+
+import de.jvstvshd.localstream.common.network.NetworkManager;
+import de.jvstvshd.localstream.common.scheduling.Concurrency;
+import de.jvstvshd.localstream.common.scheduling.Scheduler;
+import de.jvstvshd.localstream.common.title.TitleException;
+import de.jvstvshd.localstream.common.title.TitleMetadata;
 import de.jvstvshd.localstream.server.database.DataSourceManager;
 import de.jvstvshd.localstream.server.file.FileManager;
-import de.jvstvshd.localstream.title.TitleException;
-import de.jvstvshd.localstream.title.TitleMetadata;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -21,7 +22,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
 
 public class TitleManager {
 

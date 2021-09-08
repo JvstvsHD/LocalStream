@@ -1,7 +1,7 @@
 package de.jvstvshd.localstream.server.database;
 
 import com.zaxxer.hikari.HikariConfig;
-import de.jvstvshd.localstream.scheduling.Concurrency;
+import de.jvstvshd.localstream.common.scheduling.Concurrency;
 import org.mariadb.jdbc.MariaDbDataSource;
 
 import java.util.Properties;

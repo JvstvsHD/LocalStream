@@ -1,7 +1,7 @@
 package de.jvstvshd.localstream.server.file;
 
 import com.google.common.collect.Lists;
-import de.jvstvshd.localstream.title.TitleMetadata;
+import de.jvstvshd.localstream.common.title.TitleMetadata;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;

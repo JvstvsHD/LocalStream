@@ -1,4 +1,4 @@
-package de.jvstvshd.localstream.server.util;
+package de.jvstvshd.localstream.server.utils;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;

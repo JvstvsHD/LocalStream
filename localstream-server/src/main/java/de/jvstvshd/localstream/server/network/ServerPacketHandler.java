@@ -1,19 +1,18 @@
 package de.jvstvshd.localstream.server.network;
 
-import de.jvstvshd.localstream.network.NetworkManager;
-import de.jvstvshd.localstream.network.handling.PacketServerHandler;
-import de.jvstvshd.localstream.network.packets.*;
+import de.jvstvshd.localstream.common.network.NetworkManager;
+import de.jvstvshd.localstream.common.network.handling.PacketServerHandler;
+import de.jvstvshd.localstream.common.network.packets.*;
+import de.jvstvshd.localstream.common.title.TitleMetadata;
 import de.jvstvshd.localstream.server.LocalStreamServer;
 import de.jvstvshd.localstream.server.file.FileManager;
 import de.jvstvshd.localstream.server.file.FileUpload;
 import de.jvstvshd.localstream.server.title.TitleManager;
 import de.jvstvshd.localstream.server.title.TitlePlayer;
-import de.jvstvshd.localstream.title.TitleMetadata;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
-import java.util.UUID;
 
 public class ServerPacketHandler implements PacketServerHandler {
 
