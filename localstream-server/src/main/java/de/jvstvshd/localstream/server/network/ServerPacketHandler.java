@@ -3,6 +3,7 @@ package de.jvstvshd.localstream.server.network;
 import de.jvstvshd.localstream.common.network.NetworkManager;
 import de.jvstvshd.localstream.common.network.handling.PacketServerHandler;
 import de.jvstvshd.localstream.common.network.packets.elements.*;
+import de.jvstvshd.localstream.common.title.TitleAction;
 import de.jvstvshd.localstream.common.title.TitleMetadata;
 import de.jvstvshd.localstream.server.LocalStreamServer;
 import de.jvstvshd.localstream.server.file.FileManager;
@@ -41,6 +42,7 @@ public class ServerPacketHandler implements PacketServerHandler {
     @Override
     public void handleTitle(TitlePacket packet) {
         System.out.println(packet.getAction());
+        TitleAction action = packet.getAction();
         switch (packet.getAction()) {
             case ADD_START -> fileManager.getFileUpload(packet.getMetadata().getName(), packet.getMetadata()).queue(new byte[0]);
             case ADD_END -> fileManager.getFileUpload(packet.getMetadata().getName(), packet.getMetadata()).setState(FileUpload.State.COMPLETED);
@@ -64,7 +66,32 @@ public class ServerPacketHandler implements PacketServerHandler {
                         }
                     }
             );
-            case STOP, RESUME, PAUSE, ACQUIRE_DATA -> handleTitlePlay(new TitlePlayPacket(packet.getPriority(), packet.getMetadata(), packet.getAction().convert()));
+            case STOP, RESUME, PAUSE, ACQUIRE_DATA -> {
+                System.out.println(packet.getAction());
+                System.out.println(packet);
+                Optional<TitlePlayer> optPlayer = titleManager.getTitlePlayer(packet.getMetadata().getUuid());
+                if (optPlayer.isEmpty()) {
+                    System.err.println("Could not found title player; metadata: " + packet.getMetadata());
+                    return;
+                }
+                TitlePlayer player = optPlayer.get();
+                System.out.println(action);
+                lss.getScheduler().runAsync(() -> {
+                    System.out.println(action);
+                    switch (action) {
+                        case PAUSE -> {
+                            player.pause();
+                        }
+                        case RESUME -> {
+                            player.resume(packet.getMetadata().getLength());
+                        }
+                        case STOP -> {
+                            player.stop();
+                        }
+                        case ACQUIRE_DATA -> player.next();
+                    }
+                });
+            }
         }
     }
 
@@ -75,35 +102,5 @@ public class ServerPacketHandler implements PacketServerHandler {
             ssp.getSuggestions().putAll(results);
             manager.sendPacket(ssp);
         });
-    }
-
-    @Override
-    public void handleTitlePlay(TitlePlayPacket packet) {
-        System.out.println(packet.getAction());
-        System.out.println(packet);
-        Optional<TitlePlayer> optPlayer = titleManager.getTitlePlayer(packet.getMetadata().getUuid());
-        if (optPlayer.isEmpty()) {
-            System.err.println("Could not found title player; metadata: " + packet.getMetadata());
-            return;
-        }
-        TitlePlayer player = optPlayer.get();
-        TitlePlayPacket.TitlePlayAction action = packet.getAction();
-        System.out.println(action);
-        lss.getScheduler().runAsync(() -> {
-            System.out.println(action);
-            switch (action) {
-                case PAUSE -> {
-                    player.pause();
-                }
-                case RESUME -> {
-                    player.resume(packet.getMetadata().getLength());
-                }
-                case STOP -> {
-                    player.stop();
-                }
-                case ACQUIRE_DATA -> player.next();
-            }
-        });
-
     }
 }

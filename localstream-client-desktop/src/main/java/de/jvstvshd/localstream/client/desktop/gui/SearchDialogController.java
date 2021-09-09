@@ -6,6 +6,7 @@ import de.jvstvshd.localstream.common.network.packets.Packet;
 import de.jvstvshd.localstream.common.network.packets.PacketPriority;
 import de.jvstvshd.localstream.common.network.packets.elements.SearchRequestPacket;
 import de.jvstvshd.localstream.common.network.packets.elements.TitlePacket;
+import de.jvstvshd.localstream.common.title.TitleAction;
 import de.jvstvshd.localstream.common.title.TitleMetadata;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -89,7 +90,7 @@ public class SearchDialogController extends GuiController {
             }
             if (titleID == null)
                 return;
-            manager.sendPacket(new TitlePacket(PacketPriority.HIGHEST, TitlePacket.TitleAction.PLAY, TitleMetadata.builder().setUuid(titleID).build(), UUID.randomUUID()));
+            manager.sendPacket(new TitlePacket(PacketPriority.HIGHEST, TitleAction.PLAY, TitleMetadata.builder().setUuid(titleID).build(), UUID.randomUUID()));
 
         });
         return pane;

@@ -2,6 +2,7 @@ package de.jvstvshd.localstream.client.desktop.media;
 
 import de.jvstvshd.localstream.client.desktop.util.requests.Request;
 import de.jvstvshd.localstream.common.network.packets.elements.TitlePacket;
+import de.jvstvshd.localstream.common.title.TitleAction;
 import de.jvstvshd.localstream.common.title.TitleMetadata;
 
 import java.util.UUID;
@@ -12,11 +13,11 @@ public class MediaRequestData implements Request.Data {
     private final UUID requestId;
     private final Consumer<MediaSystem.SimpleResponse> consumer;
     private final TitleMetadata metadata;
-    private final TitlePacket.TitleAction action;
+    private final TitleAction action;
 
     public MediaRequestData(UUID requestId,
                             Consumer<MediaSystem.SimpleResponse> consumer,
-                            TitleMetadata metadata, TitlePacket.TitleAction action) {
+                            TitleMetadata metadata, TitleAction action) {
         this.requestId = requestId;
         this.consumer = consumer;
         this.metadata = metadata;
@@ -35,7 +36,7 @@ public class MediaRequestData implements Request.Data {
         return metadata;
     }
 
-    public TitlePacket.TitleAction getAction() {
+    public TitleAction getAction() {
         return action;
     }
 }

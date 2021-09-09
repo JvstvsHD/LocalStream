@@ -6,6 +6,7 @@ import de.jvstvshd.localstream.common.network.NetworkManager;
 import de.jvstvshd.localstream.common.network.packets.PacketPriority;
 import de.jvstvshd.localstream.common.network.packets.elements.TitleDataUploadPacket;
 import de.jvstvshd.localstream.common.network.packets.elements.TitlePacket;
+import de.jvstvshd.localstream.common.title.TitleAction;
 import de.jvstvshd.localstream.common.title.TitleMetadata;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -108,7 +109,7 @@ public class MediaUpload implements Comparable<MediaUpload> {
                 .setTitleName(titleName)
                 .build();
         activities.ensureCreated(activityUuid, NetworkActivity.ActivityType.ADD_TITLE);
-        manager.sendPacket(new TitlePacket(priority, TitlePacket.TitleAction.ADD_START, metadata, randomUUID()));
+        manager.sendPacket(new TitlePacket(priority, TitleAction.ADD_START, metadata, randomUUID()));
         activities.changeActivityState(activityUuid, NetworkActivity.State.STARTED);
     }
 
@@ -143,7 +144,7 @@ public class MediaUpload implements Comparable<MediaUpload> {
             activities.changeActivityState(activityUuid, NetworkActivity.State.COMPUTED_FAIL);
             return UploadResult.get(UploadResult.FAIL, e);
         }
-        manager.sendPacket(new TitlePacket(priority, TitlePacket.TitleAction.ADD_END, metadata, UUID.randomUUID()));
+        manager.sendPacket(new TitlePacket(priority, TitleAction.ADD_END, metadata, UUID.randomUUID()));
         activities.changeActivityState(activityUuid, NetworkActivity.State.COMPUTED_SUCCESS);
         System.out.println(sentPackets + " - " + maxPackets);
         return UploadResult.SUCCESS;

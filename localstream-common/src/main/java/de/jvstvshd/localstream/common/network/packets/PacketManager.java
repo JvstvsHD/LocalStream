@@ -22,9 +22,7 @@ public class PacketManager {
                 .add(TitlePacket.class)
                 .add(SearchRequestPacket.class)
                 .add(SearchSuggestionPacket.class)
-                .add(StartPlayPacket.class)
-                .add(TitlePlayPacket.class);
-
+                .add(StartPlayPacket.class);
     }
 
     public PacketManager add(Class<? extends Packet<?>> clazz) {

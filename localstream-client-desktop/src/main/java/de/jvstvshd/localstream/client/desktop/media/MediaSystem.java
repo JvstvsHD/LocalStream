@@ -7,8 +7,8 @@ import de.jvstvshd.localstream.client.desktop.util.requests.RequestSystem;
 import de.jvstvshd.localstream.common.network.NetworkManager;
 import de.jvstvshd.localstream.common.network.packets.PacketPriority;
 import de.jvstvshd.localstream.common.network.packets.elements.TitlePacket;
-import de.jvstvshd.localstream.common.network.packets.elements.TitlePlayPacket;
 import de.jvstvshd.localstream.common.scheduling.Scheduler;
+import de.jvstvshd.localstream.common.title.TitleAction;
 import de.jvstvshd.localstream.common.title.TitleMetadata;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -78,7 +78,7 @@ public class MediaSystem {
         return currentPlayer;
     }
 
-    public AbstractMediaPlayer startMediaPlayer(AudioFormat format, long maxPackets, TitleMetadata metadata) throws LineUnavailableException {
+    public AbstractMediaPlayer startMediaPlayer(AudioFormat format, long maxPackets, TitleMetadata metadata) {
         AudioPlayer audioPlayer = new AudioPlayer(format, metadata.getName(), maxPackets, this, metadata);
         this.currentPlayer = audioPlayer;
         return audioPlayer;
@@ -86,7 +86,7 @@ public class MediaSystem {
 
     public void shutdownPlayer(AudioPlayer player) {
         if (player == null) return;
-        manager.sendPacket(new TitlePlayPacket(PacketPriority.HIGH, player.getMetadata(), TitlePlayPacket.TitlePlayAction.STOP));
+        manager.sendPacket(new TitlePacket(PacketPriority.HIGH, TitleAction.STOP, player.getMetadata(), UUID.randomUUID()));
     }
 
     private void upload(File file) {
@@ -125,7 +125,7 @@ public class MediaSystem {
     }
 
     public void checkExistence(UUID uuid, Consumer<SimpleResponse> consumer, TitleMetadata metadata) {
-        checkExistence(new MediaRequest(new MediaRequestData(uuid, consumer, metadata, TitlePacket.TitleAction.CHECK), requestSystem, manager));
+        checkExistence(new MediaRequest(new MediaRequestData(uuid, consumer, metadata, TitleAction.CHECK), requestSystem, manager));
     }
 
     public synchronized void inject(SimpleResponse response) {
@@ -137,11 +137,11 @@ public class MediaSystem {
 
     public void pausePlayer(AudioPlayer player) {
         System.out.println("pause");
-        manager.sendPacket(new TitlePlayPacket(PacketPriority.HIGH, player.getMetadata(), TitlePlayPacket.TitlePlayAction.PAUSE));
+        manager.sendPacket(new TitlePacket(PacketPriority.HIGH, TitleAction.PAUSE, player.getMetadata(), UUID.randomUUID()));
     }
 
     public void resumePlayer(AudioPlayer player) {
-        manager.sendPacket(new TitlePlayPacket(PacketPriority.HIGH, player.getMetadata().toBuilder().setLength(player.playedBytes()).build(), TitlePlayPacket.TitlePlayAction.RESUME));
+        manager.sendPacket(new TitlePacket(PacketPriority.HIGH, TitleAction.RESUME, player.getMetadata().toBuilder().setLength(player.playedBytes()).build(), UUID.randomUUID()));
     }
 
     public void shutdown() {
@@ -155,7 +155,7 @@ public class MediaSystem {
     }
 
     public void playFurther(AudioPlayer audioPlayer) {
-        manager.sendPacket(new TitlePlayPacket(PacketPriority.HIGHEST, audioPlayer.getMetadata(), TitlePlayPacket.TitlePlayAction.ACQUIRE_DATA));
+        manager.sendPacket(new TitlePacket(PacketPriority.HIGHEST, TitleAction.ACQUIRE_DATA, audioPlayer.getMetadata(), UUID.randomUUID()));
     }
 
     public record SimpleResponse(TitleMetadata metadata, UUID requestID,

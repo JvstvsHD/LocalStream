@@ -1,22 +1,20 @@
 package de.jvstvshd.localstream.common.network.packets.elements;
 
-
 import de.jvstvshd.localstream.common.network.handling.PacketServerHandler;
 import de.jvstvshd.localstream.common.network.packets.PacketBuffer;
 import de.jvstvshd.localstream.common.network.packets.PacketPriority;
+import de.jvstvshd.localstream.common.title.TitleAction;
 import de.jvstvshd.localstream.common.title.TitleMetadata;
 
-import java.util.Arrays;
-import java.util.Optional;
 import java.util.UUID;
 
 public class TitlePacket extends ServerHandlingPacket {
 
-    private TitleAction action;
+    private de.jvstvshd.localstream.common.title.TitleAction action;
     private UUID requestId;
     private TitleMetadata metadata;
 
-    public TitlePacket(PacketPriority priority, TitleAction action, TitleMetadata metadata, UUID requestId) {
+    public TitlePacket(PacketPriority priority, de.jvstvshd.localstream.common.title.TitleAction action, TitleMetadata metadata, UUID requestId) {
         super(priority);
         this.action = action;
         this.metadata = metadata;
@@ -29,13 +27,13 @@ public class TitlePacket extends ServerHandlingPacket {
 
     @Override
     public void read(PacketBuffer buffer) {
-        this.action = TitleAction.getTitleAction(buffer.readInt());
+        this.action = de.jvstvshd.localstream.common.title.TitleAction.getTitleAction(buffer.readInt());
         this.requestId = buffer.readUniqueId();
-        if (action == TitleAction.CHECK) {
+        if (action == de.jvstvshd.localstream.common.title.TitleAction.CHECK) {
             this.metadata = TitleMetadata.builder().setUuid(buffer.readUniqueId()).setName(buffer.readString()).build();
             return;
         }
-        if (action == TitleAction.ADD_START) {
+        if (action == de.jvstvshd.localstream.common.title.TitleAction.ADD_START) {
             metadata = TitleMetadata.builder()
                     .setUuid(buffer.readUniqueId())
                     .setInterpret(buffer.readString())
@@ -123,104 +121,5 @@ public class TitlePacket extends ServerHandlingPacket {
 
     public TitleAction getAction() {
         return action;
-    }
-
-    @Deprecated(forRemoval = true)
-    public enum TitleAction {
-        /**
-         * Starts the adding process.<br>
-         * Possible response codes:<br>
-         * - 0 if the title does not exist<br>
-         * - 1 if the title exists.<br>
-         */
-        ADD_START(de.jvstvshd.localstream.common.title.TitleAction.ADD_START),
-        /**
-         * Ends the adding process.<br>
-         */
-        ADD_END(de.jvstvshd.localstream.common.title.TitleAction.ADD_END),
-        /**
-         * Adds a title.<br>
-         * Possible response codes:<br>
-         * - 0 for success<br>
-         * - 1 for failure<br>
-         */
-        REMOVE(de.jvstvshd.localstream.common.title.TitleAction.REMOVE),
-        /**
-         * Checks for the existence of a title.<br>
-         * Possible response codes:<br>
-         * - 0 if the title exists.<br>
-         * - 1 if not.
-         */
-        CHECK(de.jvstvshd.localstream.common.title.TitleAction.CHECK),
-        /**
-         * Plays a title.<br>
-         * Needed data: {@link UUID}.<br>
-         * Possible response codes:<br>
-         * - 0 if the title cannot be played<br>
-         * - 1 if the title can be played
-         */
-        PLAY(de.jvstvshd.localstream.common.title.TitleAction.PLAY),
-        /**
-         * Default value to avoid null.<br>
-         * Response code: -1.<br>
-         * <b>SHOULD NOT BE USED IF IT IS NOT A REPLACEMENT FOR <code>null</code>!</b>
-         */
-        PAUSE(de.jvstvshd.localstream.common.title.TitleAction.PAUSE),
-        RESUME(de.jvstvshd.localstream.common.title.TitleAction.RESUME),
-        STOP(de.jvstvshd.localstream.common.title.TitleAction.STOP),
-        ACQUIRE_DATA(de.jvstvshd.localstream.common.title.TitleAction.ACQUIRE_DATA),
-        NOTHING(de.jvstvshd.localstream.common.title.TitleAction.NOTHING);
-
-        private final de.jvstvshd.localstream.common.title.TitleAction action;
-
-        TitleAction(de.jvstvshd.localstream.common.title.TitleAction action) {
-            this.action = action;
-        }
-
-        public int getAction() {
-            return action.getAction();
-        }
-
-        /**
-         * Retrieves a {@link TitleAction} as optional with the given <code>action</code>
-         *
-         * @param action action as {@link Integer}
-         * @return an {@link Optional} of the action matching with <code>action</code> or {@link Optional#empty()} if nothing matches.
-         * @see #getTitleAction(int)
-         */
-        public static Optional<TitleAction> getTitleActionOptional(int action) {
-            return Arrays.stream(values()).filter(titleAction -> titleAction.getAction() == action).findFirst();
-        }
-
-        /**
-         * Retrieves a {@link TitleAction} with the given <code>action</code>.
-         *
-         * @param action action as {@link Integer}
-         * @return the matching action or {@link #NOTHING} if {@link Optional#isEmpty()} of {@link #getTitleActionOptional(int)} returned true.
-         */
-        public static TitleAction getTitleAction(int action) {
-            return getTitleActionOptional(action).orElse(NOTHING);
-        }
-
-        public de.jvstvshd.localstream.common.title.TitleAction getTitleAction() {
-            return action;
-        }
-
-        public static Optional<TitleAction> fromTitleAction(de.jvstvshd.localstream.common.title.TitleAction action) {
-            return Arrays.stream(values()).filter(titleAction -> titleAction.action == action).findAny();
-        }
-
-        /**
-         * Converts {@link #PAUSE}, {@link #RESUME} or {@link #STOP} in its equivalent from {@link TitlePlayPacket.TitlePlayAction}
-         * @return the converted {@link TitlePlayPacket.TitlePlayAction}
-         * @throws IllegalStateException if this is not one of the above noted states.
-         */
-        @Deprecated(forRemoval = true)
-        public TitlePlayPacket.TitlePlayAction convert() {
-            if (this == PAUSE) return TitlePlayPacket.TitlePlayAction.PAUSE;
-            if (this == RESUME) return TitlePlayPacket.TitlePlayAction.RESUME;
-            if (this == STOP) return TitlePlayPacket.TitlePlayAction.STOP;
-            throw new IllegalStateException("Cannot convert " + name() + " to TitlePlayPacket$TitlePlayAction.");
-        }
     }
 }
