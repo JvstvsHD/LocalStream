@@ -8,6 +8,7 @@
 /localstream-client-installer
 /localstream-common/.gradle
 /localstream-common/.idea
+/localstream-common/build
 /localstream-common/gradle
 /localstream-data
 /localstream-server/.gradle

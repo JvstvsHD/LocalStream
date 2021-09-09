@@ -1,7 +1,7 @@
 package de.jvstvshd.localstream.client.desktop.media;
 
 import de.jvstvshd.localstream.client.desktop.util.requests.Request;
-import de.jvstvshd.localstream.common.network.packets.TitlePacket;
+import de.jvstvshd.localstream.common.network.packets.elements.TitlePacket;
 import de.jvstvshd.localstream.common.title.TitleMetadata;
 
 import java.util.UUID;

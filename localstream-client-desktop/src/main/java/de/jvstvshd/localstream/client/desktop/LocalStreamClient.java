@@ -76,10 +76,7 @@ public class LocalStreamClient extends Application {
     }
 
     public static void main(String[] args) {
-        System.out.println("d");
-        //--module-path C:\IntelliJ\Projects\LocalStream\localstream-client-desktop\libs\javafx-sdk-zip\javafx-sdk-17\lib --add-modules=javafx.controls,javafx.fxml
-        /*JavaFXInstaller installer = new JavaFXInstaller();
-        installer.installJavaFX();*/
+        //--module-path "C:\Program Files\Java\javafx-sdk-17\lib" --add-modules=javafx.controls,javafx.fxml
         launch(args);
     }
 

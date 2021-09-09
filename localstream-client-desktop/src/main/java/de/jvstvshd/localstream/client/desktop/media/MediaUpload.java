@@ -4,13 +4,13 @@ import de.jvstvshd.localstream.client.desktop.util.activity.NetworkActivities;
 import de.jvstvshd.localstream.client.desktop.util.activity.NetworkActivity;
 import de.jvstvshd.localstream.common.network.NetworkManager;
 import de.jvstvshd.localstream.common.network.packets.PacketPriority;
-import de.jvstvshd.localstream.common.network.packets.TitleDataUploadPacket;
-import de.jvstvshd.localstream.common.network.packets.TitlePacket;
+import de.jvstvshd.localstream.common.network.packets.elements.TitleDataUploadPacket;
+import de.jvstvshd.localstream.common.network.packets.elements.TitlePacket;
 import de.jvstvshd.localstream.common.title.TitleMetadata;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jaudiotagger.audio.AudioFileIO;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -34,8 +34,9 @@ public class MediaUpload implements Comparable<MediaUpload> {
     private static final Logger logger = LogManager.getLogger();
     private final PacketPriority priority;
     private long sentPackets;
-    private long maxPackets;
+    private double maxPackets;
     private final NetworkActivities activities;
+    private final UUID activityUuid = randomUUID();
 
     public MediaUpload(final File file, final NetworkManager manager, PacketPriority priority, NetworkActivities activities) throws IOException {
         this.priority = priority;
@@ -77,9 +78,14 @@ public class MediaUpload implements Comparable<MediaUpload> {
         return file;
     }
 
-    private long computeLength() {
+    private double computeLength() {
         try {
-            return AudioFileIO.read(file).getAudioHeader().getTrackLength();
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+            AudioFormat format = audioInputStream.getFormat();
+            long frames = audioInputStream.getFrameLength();
+            double durationInSeconds = (frames + 0.0) / format.getFrameRate();
+            System.out.println("durationInSeconds = " + durationInSeconds);
+            return durationInSeconds;
         } catch (Exception e) {
             logger.error("Could not read length from audio file " + file.getAbsolutePath(), e);
             return -1;
@@ -89,7 +95,7 @@ public class MediaUpload implements Comparable<MediaUpload> {
     public void prepare() {
         String interpret = "Unbekannter Interpret";
         String titleName = "Unbekannter Titelname";
-        long length = computeLength();
+        long length = (long) computeLength();
         long size = file.length();
         UUID uuid = UUID.randomUUID();
         metadata = TitleMetadata
@@ -101,72 +107,37 @@ public class MediaUpload implements Comparable<MediaUpload> {
                 .setInterpret(interpret)
                 .setTitleName(titleName)
                 .build();
+        activities.ensureCreated(activityUuid, NetworkActivity.ActivityType.ADD_TITLE);
+        manager.sendPacket(new TitlePacket(priority, TitlePacket.TitleAction.ADD_START, metadata, randomUUID()));
+        activities.changeActivityState(activityUuid, NetworkActivity.State.STARTED);
     }
 
     public synchronized UploadResult performUpload() {
         prepare();
-        final UUID activityUuid = randomUUID();
-        activities.ensureCreated(activityUuid, NetworkActivity.ActivityType.ADD_TITLE);
-        manager.sendPacket(new TitlePacket(priority, TitlePacket.TitleAction.ADD_START, metadata, randomUUID()));
-        activities.changeActivityState(activityUuid, NetworkActivity.State.STARTED);
+        final int dataLength = 4096;
+        maxPackets = ((double) file.length() / dataLength);
+        long maxPackets = (long) this.maxPackets + 1;
+        long packets = calculatePackets();
+        System.out.println("packets = " + packets);
         try {
-            int dataLength = 4096;
-            maxPackets = (long) ((double) file.length() / dataLength) - 1;
-            /*byte[] data = is.readAllBytes();
+
+            int readBytes;
             byte[] currentData = new byte[dataLength];
-            int currentCopied = 0;
-            for (byte datum : data) {
-                if (shouldCancel)
-                    return UploadResult.get(UploadResult.FAIL, new CancellationException("Upload was cancelled."));
-                if (currentCopied == currentData.length) {
-                    manager.sendPacket(new TitleDataUploadPacket(priority, currentData, metadata.getUuid()));
-                    sentPackets++;
-                    currentCopied = 0;
-                    currentData = new byte[dataLength];
-                }
-                currentData[currentCopied] = datum;
-                currentCopied++;
-            }*/
-            int readBytes = 0;
-            byte[] currentData = new byte[dataLength];
-            int number = 0;
-            final double timePerPacket = (double) metadata.getLength() / maxPackets;
-            System.out.println("timePerPacket * 1000 * 1000 * 10 = " + timePerPacket * 1000 * 1000 * 10);
             while (!shouldCancel) {
                 sentPackets++;
                 readBytes = is.read(currentData, 0, currentData.length);
                 activities.changeActivityProgress(activityUuid, progress());
                 if (readBytes == -1)
                     break;
-                //System.out.println("i = " + i);
-
-                manager.sendPacket(new TitleDataUploadPacket(priority, currentData, metadata.getUuid()));
-                //TimeUnit.NANOSECONDS.sleep(Math.round(timePerPacket * 1000 * 1000 * 10));
-                TimeUnit.NANOSECONDS.sleep(1);
-                //line.write(b, 0, i);;
-                //TimeUnit.NANOSECONDS.sleep(Math.round(timePerPacket * 1000 * 1000 * 10));
-                //System.out.println("packetsSent = " + packetsSent);
-            }
-            //byte[] data = is.readAllBytes();
-
-            /*int currentCopied = 0;
-
-            while ((readBytes = is.read(currentData)) != -1) {
-                manager.sendPacket(new TitleDataUploadPacket(priority, currentData, metadata.getUuid()));
-                sentPackets++;
-            }
-           /* for (byte datum : data) {
-                if (shouldCancel)
-                    return UploadResult.get(UploadResult.FAIL, new CancellationException("Upload was cancelled."));
-                if (currentCopied == currentData.length) {
-                    manager.sendPacket(new TitleDataUploadPacket(priority, currentData, metadata.getUuid()));
-                    sentPackets++;
-                    currentCopied = 0;
-                    currentData = new byte[dataLength];
+                manager.sendPacket(new TitleDataUploadPacket(priority, currentData, metadata.getUuid(), sentPackets));
+                System.out.println("packets = " + packets);
+                if (packets == 0) {
+                    //Thread.sleep(1);
+                    packets = calculatePackets();
                 }
-                currentData[currentCopied] = datum;
-                currentCopied++;
-            }*/
+                packets--;
+                //TimeUnit.NANOSECONDS.sleep(1);
+            }
             is.close();
         } catch (Exception e) {
             activities.changeActivityState(activityUuid, NetworkActivity.State.COMPUTED_FAIL);
@@ -176,6 +147,10 @@ public class MediaUpload implements Comparable<MediaUpload> {
         activities.changeActivityState(activityUuid, NetworkActivity.State.COMPUTED_SUCCESS);
         System.out.println(sentPackets + " - " + maxPackets);
         return UploadResult.SUCCESS;
+    }
+
+    private long calculatePackets() {
+        return Math.round(maxPackets < 10 ? maxPackets : this.maxPackets / 10.0);
     }
 
     public void cancel() {
@@ -218,6 +193,6 @@ public class MediaUpload implements Comparable<MediaUpload> {
      * @return the progress of the media upload
      */
     public double progress() {
-        return sentPackets / (double) maxPackets;
+        return sentPackets / maxPackets;
     }
 }

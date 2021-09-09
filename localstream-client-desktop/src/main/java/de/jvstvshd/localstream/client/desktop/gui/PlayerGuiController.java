@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class PlayerGuiController extends GuiController {
 
     private AudioPlayer player;
@@ -29,7 +31,7 @@ public class PlayerGuiController extends GuiController {
         return time;
     }
 
-    public void changePlayState() {
+    public void changePlayState() throws IOException {
         if (player.isPausing()) {
             player.resume();
             return;
@@ -37,7 +39,7 @@ public class PlayerGuiController extends GuiController {
         player.pause();
     }
 
-    public void stopPlaying() {
+    public void stopPlaying() throws IOException {
         player.stop();
         stage.close();
     }

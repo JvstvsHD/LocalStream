@@ -1,7 +1,7 @@
 package de.jvstvshd.localstream.common.network.handling;
 
 
-import de.jvstvshd.localstream.common.network.packets.*;
+import de.jvstvshd.localstream.common.network.packets.elements.*;
 
 /**
  * Packet handler whose implementations are found in the client.
@@ -33,5 +33,11 @@ public interface PacketServerHandler extends PacketHandler {
      */
     void handleSearchRequest(SearchRequestPacket packet);
 
+    /**
+     * Handles packets for controlling the playing of titles.
+     * @param packet packet with action and the metadata for the title
+     * @deprecated as {@link TitlePlayPacket} is it.
+     */
+    @Deprecated(forRemoval = true)
     void handleTitlePlay(TitlePlayPacket packet);
 }

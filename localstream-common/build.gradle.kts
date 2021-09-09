@@ -13,7 +13,6 @@ val nettyVersion = "4.1.66.Final"
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
 
 dependencies {
@@ -24,9 +23,12 @@ dependencies {
     implementation("commons-io:commons-io:2.11.0")
     implementation("org.apache.logging.log4j:log4j-core:2.14.1")
     implementation("net.kyori:event-api:3.0.0")
-    implementation("net.bytebuddy:byte-buddy:1.11.13")
+    implementation("net.bytebuddy:byte-buddy:1.11.15")
     //audio
     //implementation("com.googlecode.soundlibs", "tritonus-share", "0.3.7.4")
+
+    implementation("com.googlecode.soundlibs", "mp3spi", "1.9.5-1")
+    implementation("com.googlecode.soundlibs", "jlayer", "1.0.1-1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
     implementation("org:jaudiotagger:2.0.3")
@@ -47,7 +49,9 @@ java {
     withJavadocJar()
 }
 
-
+tasks.withType<JavaCompile>() {
+    options.encoding = "UTF-8"
+}
 
 publishing {
     publications {

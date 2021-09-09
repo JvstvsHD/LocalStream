@@ -1,6 +1,9 @@
 package de.jvstvshd.localstream.common.network.handling;
 
-import de.jvstvshd.localstream.common.network.packets.*;
+import de.jvstvshd.localstream.common.network.packets.elements.SearchSuggestionPacket;
+import de.jvstvshd.localstream.common.network.packets.elements.ServerResponsePacket;
+import de.jvstvshd.localstream.common.network.packets.elements.StartPlayPacket;
+import de.jvstvshd.localstream.common.network.packets.elements.TitleDataPacket;
 
 /**
  * Packet handler whose implementations are found in the client.

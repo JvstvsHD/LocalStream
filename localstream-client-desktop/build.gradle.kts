@@ -30,6 +30,7 @@ javafx {
 }
 
 dependencies {
+    implementation("no.tornado:tornadofx:1.7.20")
     //logging
     implementation("org.apache.logging.log4j", "log4j-api", log4jVersion)
     implementation("org.apache.logging.log4j", "log4j-core", log4jVersion)

@@ -1,1 +1,2 @@
-rootProject.name = "LocalStreamClient"
+rootProject.name = "localstream-client-desktop"
+

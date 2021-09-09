@@ -4,16 +4,17 @@ import de.jvstvshd.localstream.client.desktop.gui.SearchDialogController;
 import de.jvstvshd.localstream.client.desktop.media.AudioPlayer;
 import de.jvstvshd.localstream.client.desktop.media.MediaSystem;
 import de.jvstvshd.localstream.common.network.handling.PacketClientHandler;
-import de.jvstvshd.localstream.common.network.packets.SearchSuggestionPacket;
-import de.jvstvshd.localstream.common.network.packets.ServerResponsePacket;
-import de.jvstvshd.localstream.common.network.packets.StartPlayPacket;
-import de.jvstvshd.localstream.common.network.packets.TitleDataPacket;
+import de.jvstvshd.localstream.common.network.packets.elements.SearchSuggestionPacket;
+import de.jvstvshd.localstream.common.network.packets.elements.ServerResponsePacket;
+import de.jvstvshd.localstream.common.network.packets.elements.StartPlayPacket;
+import de.jvstvshd.localstream.common.network.packets.elements.TitleDataPacket;
 import org.apache.logging.log4j.Logger;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.SourceDataLine;
 import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
@@ -51,9 +52,17 @@ public class ClientPacketHandler implements PacketClientHandler {
     @Override
     public void handleTitleData(TitleDataPacket titleDataPacket) {
         if (titleDataPacket.getNumber() == -1) {
-            ((AudioPlayer) mediaSystem.getCurrentMediaPlayer()).stop();
+            try {
+                mediaSystem.getCurrentMediaPlayer().stop();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        mediaSystem.getCurrentMediaPlayer().queue(titleDataPacket.getBytes());
+        try {
+            mediaSystem.getCurrentMediaPlayer().queue(titleDataPacket.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

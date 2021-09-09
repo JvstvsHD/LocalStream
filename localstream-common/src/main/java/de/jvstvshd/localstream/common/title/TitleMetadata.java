@@ -173,6 +173,16 @@ public class TitleMetadata implements Cloneable {
         }
     }
 
+    public Builder toBuilder() {
+        return new Builder()
+                .setInterpret(interpret)
+                .setLength(length)
+                .setName(name)
+                .setSize(size)
+                .setTitleName(titleName)
+                .setUuid(uuid);
+    }
+
     @Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();

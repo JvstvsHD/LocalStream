@@ -5,7 +5,7 @@ import de.jvstvshd.localstream.client.desktop.util.requests.RequestException;
 import de.jvstvshd.localstream.client.desktop.util.requests.RequestSystem;
 import de.jvstvshd.localstream.common.network.NetworkManager;
 import de.jvstvshd.localstream.common.network.packets.PacketPriority;
-import de.jvstvshd.localstream.common.network.packets.TitlePacket;
+import de.jvstvshd.localstream.common.network.packets.elements.TitlePacket;
 
 import java.util.UUID;
 

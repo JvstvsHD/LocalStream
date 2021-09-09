@@ -6,8 +6,8 @@ import de.jvstvshd.localstream.client.desktop.util.activity.NetworkActivities;
 import de.jvstvshd.localstream.client.desktop.util.requests.RequestSystem;
 import de.jvstvshd.localstream.common.network.NetworkManager;
 import de.jvstvshd.localstream.common.network.packets.PacketPriority;
-import de.jvstvshd.localstream.common.network.packets.TitlePacket;
-import de.jvstvshd.localstream.common.network.packets.TitlePlayPacket;
+import de.jvstvshd.localstream.common.network.packets.elements.TitlePacket;
+import de.jvstvshd.localstream.common.network.packets.elements.TitlePlayPacket;
 import de.jvstvshd.localstream.common.scheduling.Scheduler;
 import de.jvstvshd.localstream.common.title.TitleMetadata;
 import javafx.application.Platform;
@@ -35,7 +35,7 @@ public class MediaSystem {
     private final Scheduler scheduler;
     private final RequestSystem requestSystem;
     private boolean isQueueRunning;
-    private MediaPlayer currentPlayer;
+    private AbstractMediaPlayer currentPlayer;
     private final NetworkActivities activities;
 
     public MediaSystem(NetworkManager manager, Scheduler scheduler, RequestSystem requestSystem, NetworkActivities activities) {
@@ -72,13 +72,13 @@ public class MediaSystem {
         });
     }
 
-    public MediaPlayer getCurrentMediaPlayer() {
+    public AbstractMediaPlayer getCurrentMediaPlayer() {
         if (currentPlayer == null)
             return null;
         return currentPlayer;
     }
 
-    public MediaPlayer startMediaPlayer(AudioFormat format, long maxPackets, TitleMetadata metadata) throws LineUnavailableException {
+    public AbstractMediaPlayer startMediaPlayer(AudioFormat format, long maxPackets, TitleMetadata metadata) throws LineUnavailableException {
         AudioPlayer audioPlayer = new AudioPlayer(format, metadata.getName(), maxPackets, this, metadata);
         this.currentPlayer = audioPlayer;
         return audioPlayer;
@@ -141,7 +141,7 @@ public class MediaSystem {
     }
 
     public void resumePlayer(AudioPlayer player) {
-        manager.sendPacket(new TitlePlayPacket(PacketPriority.HIGH, player.getMetadata(), TitlePlayPacket.TitlePlayAction.RESUME));
+        manager.sendPacket(new TitlePlayPacket(PacketPriority.HIGH, player.getMetadata().toBuilder().setLength(player.playedBytes()).build(), TitlePlayPacket.TitlePlayAction.RESUME));
     }
 
     public void shutdown() {
@@ -152,6 +152,10 @@ public class MediaSystem {
         }
         shutdownPlayer((AudioPlayer) currentPlayer);
         requestSystem.shutdown();
+    }
+
+    public void playFurther(AudioPlayer audioPlayer) {
+        manager.sendPacket(new TitlePlayPacket(PacketPriority.HIGHEST, audioPlayer.getMetadata(), TitlePlayPacket.TitlePlayAction.ACQUIRE_DATA));
     }
 
     public record SimpleResponse(TitleMetadata metadata, UUID requestID,

@@ -2,8 +2,8 @@ package de.jvstvshd.localstream.server.title;
 
 import de.jvstvshd.localstream.common.network.NetworkManager;
 import de.jvstvshd.localstream.common.network.packets.PacketPriority;
-import de.jvstvshd.localstream.common.network.packets.StartPlayPacket;
-import de.jvstvshd.localstream.common.network.packets.TitleDataPacket;
+import de.jvstvshd.localstream.common.network.packets.elements.StartPlayPacket;
+import de.jvstvshd.localstream.common.network.packets.elements.TitleDataPacket;
 import de.jvstvshd.localstream.common.network.util.NetworkTask;
 import de.jvstvshd.localstream.common.scheduling.Scheduler;
 import de.jvstvshd.localstream.common.title.TitleMetadata;
@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class TitlePlayer implements NetworkTask {
 
@@ -27,6 +26,7 @@ public class TitlePlayer implements NetworkTask {
     private final TitleManager titleManager;
     private long byteCount;
     private final Scheduler scheduler;
+    private boolean next = false;
 
     public TitlePlayer(File file, NetworkManager manager, TitleMetadata metadata, TitleManager titleManager, Scheduler scheduler) throws IOException {
         this.file = file;
@@ -95,7 +95,11 @@ public class TitlePlayer implements NetworkTask {
             System.out.println("byteCount = " + byteCount);
             manager.sendPacket(new TitleDataPacket(PacketPriority.HIGH, b, number++));
             //line.write(b, 0, i);;
-            TimeUnit.NANOSECONDS.sleep(Math.round(timePerPacket * 1000 * 1000 * 10));
+            //TimeUnit.NANOSECONDS.sleep(Math.round(timePerPacket * 1000 * 1000 * 10));
+            while (!next) {
+                Thread.sleep(0, 1);
+            }
+            next = false;
             //System.out.println("packetsSent = " + packetsSent);
         }
         System.out.println("byteCount at stop = " + byteCount);
@@ -134,11 +138,11 @@ public class TitlePlayer implements NetworkTask {
         this.shouldPause = true;
     }
 
-    public void resume() {
+    public void resume(long skipBytes) {
         try {
             this.shouldPause = false;
             System.out.println("byteCount = " + byteCount);
-            play(byteCount, false);
+            play(skipBytes, false);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -154,5 +158,10 @@ public class TitlePlayer implements NetworkTask {
     public void stop() {
         System.out.println("stopping...");
         stop = true;
+    }
+
+    public void next() {
+        System.out.println("next");
+        next = true;
     }
 }

@@ -2,7 +2,7 @@ package de.jvstvshd.localstream.server.network;
 
 import de.jvstvshd.localstream.common.network.NetworkManager;
 import de.jvstvshd.localstream.common.network.handling.PacketServerHandler;
-import de.jvstvshd.localstream.common.network.packets.*;
+import de.jvstvshd.localstream.common.network.packets.elements.*;
 import de.jvstvshd.localstream.common.title.TitleMetadata;
 import de.jvstvshd.localstream.server.LocalStreamServer;
 import de.jvstvshd.localstream.server.file.FileManager;
@@ -40,6 +40,7 @@ public class ServerPacketHandler implements PacketServerHandler {
 
     @Override
     public void handleTitle(TitlePacket packet) {
+        System.out.println(packet.getAction());
         switch (packet.getAction()) {
             case ADD_START -> fileManager.getFileUpload(packet.getMetadata().getName(), packet.getMetadata()).queue(new byte[0]);
             case ADD_END -> fileManager.getFileUpload(packet.getMetadata().getName(), packet.getMetadata()).setState(FileUpload.State.COMPLETED);
@@ -47,23 +48,23 @@ public class ServerPacketHandler implements PacketServerHandler {
             case CHECK -> titleManager.exists(packet.getMetadata().getName())
                     .thenAcceptAsync(aBoolean -> manager.sendPacket(new ServerResponsePacket(packet.getPriority(), aBoolean ? 1 : 0, packet.getRequestId())));
             case NOTHING -> System.err.println("Nothing was transmitted.");
-            case PLAY -> {
-                titleManager.canBePlayed(packet.getMetadata().getUuid()).thenAcceptAsync(aBoolean -> {
-                    if (!aBoolean) {
-                        manager.sendPacket(new ServerResponsePacket(packet.getPriority(), 0, packet.getRequestId()));
-                        return;
+            case PLAY -> titleManager.canBePlayed(packet.getMetadata().getUuid()).thenAcceptAsync(aBoolean -> {
+                        if (!aBoolean) {
+                            manager.sendPacket(new ServerResponsePacket(packet.getPriority(), 0, packet.getRequestId()));
+                            return;
+                        }
+                        Connection connection = lss.getDataSourceManager().getConnection();
+                        TitleMetadata tm =
+                                TitleMetadata.resolve(packet.getMetadata().getUuid(), lss.getDataSourceManager().getConnection());
+                        titleManager.play(tm, manager);
+                        try {
+                            connection.close();
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
-                    Connection connection = lss.getDataSourceManager().getConnection();
-                    TitleMetadata tm =
-                            TitleMetadata.resolve(packet.getMetadata().getUuid(), lss.getDataSourceManager().getConnection());
-                    titleManager.play(tm, manager);
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-            }
+            );
+            case STOP, RESUME, PAUSE, ACQUIRE_DATA -> handleTitlePlay(new TitlePlayPacket(packet.getPriority(), packet.getMetadata(), packet.getAction().convert()));
         }
     }
 
@@ -78,6 +79,7 @@ public class ServerPacketHandler implements PacketServerHandler {
 
     @Override
     public void handleTitlePlay(TitlePlayPacket packet) {
+        System.out.println(packet.getAction());
         System.out.println(packet);
         Optional<TitlePlayer> optPlayer = titleManager.getTitlePlayer(packet.getMetadata().getUuid());
         if (optPlayer.isEmpty()) {
@@ -93,13 +95,14 @@ public class ServerPacketHandler implements PacketServerHandler {
                 case PAUSE -> {
                     player.pause();
                 }
-                case RESUME, ACQUIRE_DATA -> {
-                    player.resume();
+                case RESUME -> {
+                    player.resume(packet.getMetadata().getLength());
                 }
                 case STOP -> {
                     player.stop();
                 }
-            };
+                case ACQUIRE_DATA -> player.next();
+            }
         });
 
     }
